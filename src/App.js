@@ -1,23 +1,46 @@
-import logo from './logo.svg';
+import React, { useState } from 'react'
 import './App.scss';
 
+import ScrollProgress from './components/ScrollProgress';
+
+const buttonList = [
+  {
+    title: '스크롤 프로그래스',
+    component: <ScrollProgress />
+  }
+]
+
 function App() {
+  const [currentComponent, setCurrentComponent] = useState(null);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {
+        !!currentComponent
+          ? (
+            <div>
+              <header>
+                <button onClick={() => setCurrentComponent(null)}>
+                  back
+                </button>
+              </header>
+              {currentComponent} 
+            </div>
+          )
+          : (
+            <div className="component-choice-wrapper">
+              {
+                buttonList.map(item => (
+                  <button
+                    className="component-choice-button"
+                    onClick={() => setCurrentComponent(item.component)}>
+                    {item.title}
+                  </button>
+                ))
+              }
+            </div>
+          )
+        }
     </div>
   );
 }
